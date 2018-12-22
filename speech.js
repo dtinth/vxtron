@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-require('dotenv').config({ path: __dirname + '/../vxcli/.env' })
+require('dotenv').config({ path: __dirname + '/.env' })
 
 const record = require('node-record-lpcm16')
 const speech = require('@google-cloud/speech').v1p1beta1
