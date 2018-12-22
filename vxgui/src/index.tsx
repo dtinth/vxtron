@@ -1,12 +1,11 @@
-import React, { useReducer, useEffect, useRef, Fragment } from 'react'
+import React, { Fragment, useEffect, useReducer, useRef } from 'react'
 import ReactDOM from 'react-dom'
-import { createGlobalStyle } from 'styled-components'
 import { listenToCommand } from './commands'
-import { actionTypes, actionType, actionHandler } from './redux-utils'
-import { createVoiceListener, VoiceListener } from './voiceListener'
-import './index.css'
 import { copyToClipboard } from './copyToClipboard'
 import { isElectronMode } from './environment'
+import './index.css'
+import { actionHandler, actionType, actionTypes } from './redux-utils'
+import { createVoiceListener, VoiceListener } from './voiceListener'
 
 const MicIcon = () => (
   <svg width="33px" height="47px" viewBox="0 0 33 47" version="1.1">
