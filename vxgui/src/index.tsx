@@ -190,7 +190,7 @@ function App() {
       console.log('[toHide]', toHide)
       if (!toHide) return () => {}
       const hide = () => dispatch(actions.HideHUD({}))
-      const timeout = setTimeout(hide, 5000)
+      const timeout = setTimeout(hide, 2000)
       return () => clearTimeout(timeout)
     },
     [toHide]
