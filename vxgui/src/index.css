@@ -1,0 +1,53 @@
+body {
+  background: #8b8685;
+  margin: 0;
+  padding: 0;
+  color: #e9e8e7;
+  font: 32px Arimo, Noto Sans Thai, sans-serif;
+}
+html[data-electron='1'] body {
+  background: transparent;
+}
+
+.AppView {
+  display: flex;
+  padding: 32px;
+  align-items: flex-start;
+  transition: 0.5s ease-out;
+}
+.AppView[data-visible='0'] {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.AppView-icon {
+  width: 64px;
+  height: 64px;
+  margin-right: 8px;
+  border-radius: 32px;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.AppView-transcript {
+  flex: 1;
+  border-radius: 32px;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 42px;
+  padding: 11px 16px;
+  font-weight: bold;
+  min-height: 64px;
+  box-sizing: border-box;
+}
+.AppView[data-finished='1'] .AppView-transcript {
+  color: #d7fc70;
+}
+.AppView[data-status='idle'] .AppView-icon {
+  color: #000;
+}
+.AppView[data-status='listeningRequested'] .AppView-icon {
+  color: #bef;
+}
+.AppView[data-status='listening'] .AppView-icon {
+  color: #e9e8e7;
+}
