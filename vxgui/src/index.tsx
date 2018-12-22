@@ -4,8 +4,8 @@ import { listenToCommand } from './commands'
 import { copyToClipboard } from './copyToClipboard'
 import { isElectronMode } from './environment'
 import './index.css'
-import { actionHandler, actionType, actionTypes } from './redux-utils'
 import { createVoiceListener, VoiceListener } from './voiceListener'
+import { reducer, initialState, actions } from './state'
 
 const MicIcon = () => (
   <svg width="33px" height="47px" viewBox="0 0 33 47" version="1.1">
@@ -28,88 +28,6 @@ const MicIcon = () => (
     </g>
   </svg>
 )
-
-const actions = actionTypes({
-  /** When pressing the "Listen" button */
-  ListeningRequested: actionType<{}>(),
-
-  /** When speech recognition is ready */
-  ListeningStarted: actionType<{
-    expiryTime?: number
-  }>(),
-
-  /** Fires when listening finished or time up */
-  ListeningFinished: actionType<{}>(),
-
-  /** When receive transcript */
-  TranscriptReceived: actionType<{
-    transcript: string
-    isFinal: boolean
-    timestamp: number
-  }>(),
-
-  /** Fires when it is time to hide the display HUD */
-  HideHUD: actionType<{}>(),
-
-  /** When the user wants to recall the previously recognized text. */
-  RecallPrevious: actionType<{}>(),
-
-  /** When the user wants to go back to the next recognized text. */
-  RecallNext: actionType<{}>()
-})
-
-type State = {
-  status: 'idle' | 'listeningRequested' | 'listening'
-  listeningExpiryTime?: number
-  currentTranscript: string
-  historyIndex: number
-  history: {
-    transcript: string
-    timestamp: number
-  }[]
-}
-
-const initialState: State = {
-  status: 'idle',
-  currentTranscript: '',
-  historyIndex: 0,
-  history: []
-}
-
-const reducer = actionHandler<State>()
-  .handle(actions.ListeningRequested, (state, action) => {
-    state.status = 'listeningRequested'
-  })
-  .handle(actions.ListeningStarted, (state, action) => {
-    state.status = 'listening'
-    state.listeningExpiryTime = action.expiryTime
-  })
-  .handle(actions.ListeningFinished, (state, action) => {
-    state.status = 'idle'
-    delete state.listeningExpiryTime
-  })
-  .handle(actions.RecallPrevious, (state, action) => {
-    state.historyIndex = Math.max(0, state.historyIndex - 1)
-  })
-  .handle(actions.RecallNext, (state, action) => {
-    state.historyIndex = Math.min(state.history.length, state.historyIndex + 1)
-  })
-  .handle(actions.HideHUD, (state, action) => {
-    state.historyIndex = state.history.length
-  })
-  .handle(actions.TranscriptReceived, (state, action) => {
-    if (action.isFinal) {
-      state.history.push({
-        timestamp: action.timestamp,
-        transcript: action.transcript
-      })
-      state.historyIndex = state.history.length - 1
-      state.currentTranscript = ''
-    } else {
-      state.currentTranscript = action.transcript
-    }
-  })
-  .toReducer()
 
 function wrapDispatch<T extends Function>(dispatch: T): T {
   return ((action: any) => {

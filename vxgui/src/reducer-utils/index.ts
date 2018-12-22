@@ -46,11 +46,11 @@ export function actionHandler<S = any, A = any>(initialState?: S, spec = {}) {
 
 export type ActionTypes<T> = { [K in keyof T]: ActionConstructor<K, T[K]> }
 
-export type ActionType<T> = {
+export interface ActionType<T> {
   bindName<N>(name: N): ActionConstructor<N, T>
 }
 
-export type ActionConstructor<N, T> = {
+export interface ActionConstructor<N, T> {
   (data: T): T & { type: N }
   actionType: N
 }
