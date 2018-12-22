@@ -2,7 +2,7 @@ body {
   background: #8b8685;
   margin: 0;
   padding: 0;
-  color: #e9e8e7;
+  color: #fff;
   font: 32px Arimo, Noto Sans Thai, sans-serif;
 }
 html[data-electron='1'] body {
@@ -55,7 +55,7 @@ html[data-electron='1'] body {
   color: #fb5e90;
 }
 .AppView[data-status='listening'] .AppView-icon {
-  color: #e9e8e7;
+  color: #fff;
 }
 
 .AppView[data-fading='1'] .AppView-transcript {
