@@ -209,7 +209,7 @@ function App() {
         <div className="AppView-icon">
           <MicIcon />
         </div>
-        <div className="AppView-transcript">{text}</div>
+        {!!text && <div className="AppView-transcript">{text}</div>}
       </div>
       {!isElectronMode && <pre>{JSON.stringify(state, null, 2)}</pre>}
     </Fragment>
