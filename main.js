@@ -9,7 +9,8 @@ function createWindow() {
     width: width,
     height: 480,
     frame: false,
-    transparent: true
+    transparent: true,
+    hasShadow: false
   }))
   if (process.env.VX_DEV === '1') {
     win.loadURL('http://localhost:3000/?electron=1')
