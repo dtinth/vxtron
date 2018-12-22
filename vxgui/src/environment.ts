@@ -1,1 +1,1 @@
-export const isElectronMode = location.search.includes('electron=1')
+export const isElectronMode = !!(window as any).require

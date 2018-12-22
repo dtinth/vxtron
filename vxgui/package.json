@@ -1,7 +1,8 @@
 {
-  "name": "voxscriber",
+  "name": "vxgui",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.15",

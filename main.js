@@ -11,7 +11,8 @@ function createWindow() {
     frame: false,
     transparent: true
   }))
-  win.loadURL('http://localhost:3000/?electron=1')
+  // win.loadURL('http://localhost:3000/?electron=1')
+  win.loadFile('vxgui/build/index.html')
   win.setAlwaysOnTop(true, 'status')
   win.setIgnoreMouseEvents(true)
   let currentListenProcess
