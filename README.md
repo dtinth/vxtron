@@ -14,7 +14,9 @@ voice and converts to text and copies it to the clipboard.
 - macOS’ Dictation does not have a public API that apps can use (not hackable).
 
 - Google Cloud Text to speech enhanced voice models are much more accurate than
-  macOS’ Dictation and the free webkitSpeechRecognition API.
+  macOS’ Dictation and the free webkitSpeechRecognition API. It also comes with
+  automatic punctuation insertion, which means it can automatically add full
+  stops, commas, and question marks.
 
 ## Setup
 
@@ -64,13 +66,73 @@ voice and converts to text and copies it to the clipboard.
 - Press **Cmd+Alt+Shift+L** to dictate Thai text. Press it again to make it stop
   listening.
 
-- As soon as you finished speaking the text that was recognized will be copied
-  to the clipboard automatically.
-
-- The app remembers the past texts that you have previously spoke, and you can
-  use **Cmd+Alt+Up** and **Cmd+Alt+Down** to cycle through them. As you cycle
-  through the history, the text that was recalled will also be copied to the
+- As soon as you finish speaking, the recognized text will be copied to the
   clipboard automatically.
+
+- The app remembers the past texts (not persistent), and you can use
+  **Cmd+Alt+Up** and **Cmd+Alt+Down** to cycle through them. As you cycle
+  through the history, the recalled text will also be copied to the clipboard
+  automatically.
+
+## Development
+
+### Developing the GUI
+
+A browser-based development environment is available. It is purely browser-based
+and doesn't use Electron APIs or Google Cloud Speech-To-Text. Instead, it uses
+the `webkitSpeechRecognition` API to recognize your voice.
+
+This means it doesn't cost anything while development, but recognition accuracy
+will suffer, and automatic punctuation insertion will not be available.
+
+1. Run `yarn start` in `vxgui` directory:
+
+   ```
+   (cd vxgui && yarn start)
+   ```
+
+2. This will launch create-react-app development server. A browser should open
+   to `localhost:3000` automatically. Make sure you are using **Google Chrome**
+   (otherwise the speech recognition API will not be available).
+
+3. The key bindings are the same, except that you use **Ctrl** instead of
+   **Cmd** key. For example, press **Ctrl+Alt+L** to listen to text.
+
+   The accelerator key is changed to prevent conflict between the development
+   version and the electron version, which may be running at the same time.
+
+4. The copy functionality will not work because a webapp may not copy stuff to
+   the clipboard without a user interaction. However, this can be circumvented
+   by exposing Chrome DevTool’s `copy` function into the webapp. You can do that
+   by running the following command in the JavaScript console:
+
+   ```js
+   copy('...')
+   Object.assign(window, { copy })
+   ```
+
+### Building the GUI as a static HTML file for electron
+
+Once you finish developing, run `yarn build` in `vxgui` directory.
+
+```
+(cd vxgui && yarn build)
+```
+
+This will build the files into the `vxgui/build` directory.
+
+### Testing the development app in Electron
+
+Sometimes, you really need to test some Electron-specific APIs, and having to
+rebuild a bundle every time we want to test it is not ideal.
+
+Alternatively, with the development server running, you can run the Electron app
+with an environment variable `VX_DEV=1` to make the Electron app load the app
+from `localhost:3000` instead of the built files.
+
+```
+VX_DEV=1 yarn start
+```
 
 ## Cost
 
