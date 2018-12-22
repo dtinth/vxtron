@@ -17,4 +17,8 @@ My utility functions for creating reducers in a typesafe way.
 
 5. Reduce boilerplate.
 
-##
+## Example
+
+Please check out
+[the app’s state definition, which is located in `state.ts`](../state.ts) for an
+example.
