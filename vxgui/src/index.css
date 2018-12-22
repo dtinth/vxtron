@@ -22,6 +22,7 @@ html[data-electron='1'] body {
 .AppView-icon {
   width: 64px;
   height: 64px;
+  flex: none;
   margin-right: 8px;
   border-radius: 32px;
   background: rgba(0, 0, 0, 0.3);
@@ -30,7 +31,6 @@ html[data-electron='1'] body {
   justify-content: center;
 }
 .AppView-transcript {
-  flex: 1;
   border-radius: 32px;
   background: rgba(0, 0, 0, 0.3);
   line-height: 42px;
