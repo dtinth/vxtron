@@ -40,23 +40,29 @@ voice and converts to text and copies it to the clipboard.
    npm install
    ```
 
-7. Install their dependencies for the React app, located in `vxgui` foler:
+7. Some binary dependencies have to be rebuilt for Electron.
+
+   ```
+   npm run rebuild-deps
+   ```
+
+8. Install the dependencies for the React app, located in `vxgui` foler:
 
    ```
    (cd vxgui && yarn)
    ```
 
-8. Build the React app:
+9. Build the React app:
 
    ```
    (cd vxgui && yarn build)
    ```
 
-9. Run the Electron app:
+10. Run the Electron app:
 
-   ```
-   yarn start
-   ```
+    ```
+    yarn start
+    ```
 
 ## Usage
 
