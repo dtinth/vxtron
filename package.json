@@ -9,6 +9,6 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build-deps": "npm rebuild --runtime=electron --target=4.0.0 --disturl=https://atom.io/download/atom-shell --abi=64"
+    "rebuild-deps": "npm rebuild --runtime=electron --target=3.0.13"
   }
 }
