@@ -15,23 +15,23 @@ export function listenToCommand(delegate: AppCommands) {
       delegate.recallNext()
     })
   } else {
-    hotkeys('cmd+shift+l', function(event, handler) {
+    hotkeys('ctrl+shift+l', function(event, handler) {
       event.preventDefault()
       delegate.requestListening({
         language: 'en-US'
       })
     })
-    hotkeys('cmd+alt+shift+l', function(event, handler) {
+    hotkeys('ctrl+alt+shift+l', function(event, handler) {
       event.preventDefault()
       delegate.requestListening({
         language: 'th'
       })
     })
-    hotkeys('cmd+shift+up', function(event, handler) {
+    hotkeys('ctrl+shift+up', function(event, handler) {
       event.preventDefault()
       delegate.recallPrevious()
     })
-    hotkeys('cmd+shift+down', function(event, handler) {
+    hotkeys('ctrl+shift+down', function(event, handler) {
       event.preventDefault()
       delegate.recallNext()
     })
