@@ -4,22 +4,29 @@ export const actions = actionTypes({
   /** When pressing the "Listen" button */
   ListeningRequested: actionType<{}>(),
 
-  /** When speech recognition is ready */
+  /** When speech recognition is ready to take voice input */
   ListeningStarted: actionType<{
+    /**
+     * The time that the speech recognition session will end.
+     * May be `undefined` if there's no expiration.
+     */
     expiryTime?: number
   }>(),
 
-  /** Fires when listening finished or time up */
+  /** When listening session is finished or expired */
   ListeningFinished: actionType<{}>(),
 
-  /** When receive transcript */
+  /** When transcript is received */
   TranscriptReceived: actionType<{
+    /** The transcribed text */
     transcript: string
+    /** `true` if this is the final result. `false` if this is an interim result. */
     isFinal: boolean
+    /** The timestamp that this transcript has been received */
     timestamp: number
   }>(),
 
-  /** Fires when it is time to hide the display HUD */
+  /** When it is time to hide the HUD */
   HideHUD: actionType<{}>(),
 
   /** When the user wants to recall the previously recognized text. */
@@ -37,7 +44,7 @@ export type State = {
   listeningExpiryTime?: number
 
   /**
-   * The current interim result.
+   * The current interim transcript.
    * Will revert to an empty string after the current transcription is finalized.
    */
   currentTranscript: string
@@ -46,7 +53,9 @@ export type State = {
    * A list of past transcriptions, sorted ascending by time.
    */
   history: {
+    /** The transcribed text */
     transcript: string
+    /** The timestamp that this transcript has been received */
     timestamp: number
   }[]
 
