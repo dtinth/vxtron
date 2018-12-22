@@ -1,5 +1,6 @@
 require('dotenv').config({ path: __dirname + '/.env' })
-
+const fs = require('fs')
+const logFile = __dirname + '/speech-stats.log'
 const record = require('node-record-lpcm16')
 const speech = require('@google-cloud/speech').v1p1beta1
 require('protobufjs/src/util/minimal').isNode = true
@@ -40,6 +41,7 @@ module.exports = function streamingMicRecognize(opts, dispatch) {
     })
 
   // Start recording and send the microphone input to the Speech API
+  let totalSize = 0
   record
     .start({
       sampleRateHertz: 16000,
@@ -48,7 +50,8 @@ module.exports = function streamingMicRecognize(opts, dispatch) {
       recordProgram: 'rec',
       silence: '10.0'
     })
-    .on('data', () => {
+    .on('data', buf => {
+      totalSize += buf.length
       if (!expireTime) {
         console.log('[speech] Ready to listen')
         expireTime = Date.now() + 59000
@@ -68,7 +71,16 @@ module.exports = function streamingMicRecognize(opts, dispatch) {
       { end: true }
     )
     .on('end', () => {
-      console.log('[speech] API end')
+      const time = totalSize / 16000 / 2
+      console.log(
+        '[speech] API end, total size',
+        totalSize,
+        time.toFixed(2) + 's'
+      )
+      fs.appendFileSync(
+        logFile,
+        [new Date().toJSON(), Math.ceil(time), th ? 1 : 2].join('\t') + '\n'
+      )
       dispatch({ type: 'end' })
     })
   return {
