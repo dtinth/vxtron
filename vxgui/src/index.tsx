@@ -121,6 +121,7 @@ function wrapDispatch<T extends Function>(dispatch: T): T {
 function App() {
   const [state, _dispatch] = useReducer(reducer, initialState)
   const listenerRef = useRef<VoiceListener>(null)
+  const divRef = useRef<HTMLDivElement>(null)
   const dispatch = wrapDispatch(_dispatch)
 
   useEffect(() => {
@@ -190,8 +191,20 @@ function App() {
       console.log('[toHide]', toHide)
       if (!toHide) return () => {}
       const hide = () => dispatch(actions.HideHUD({}))
+      const fade = () => {
+        if (divRef.current) {
+          divRef.current.setAttribute('data-fading', '1')
+        }
+      }
       const timeout = setTimeout(hide, 2000)
-      return () => clearTimeout(timeout)
+      const fadeTimeout = setTimeout(fade, 1000)
+      return () => {
+        clearTimeout(timeout)
+        clearTimeout(fadeTimeout)
+        if (divRef.current) {
+          divRef.current.setAttribute('data-fading', '0')
+        }
+      }
     },
     [toHide]
   )
@@ -200,6 +213,7 @@ function App() {
     <Fragment>
       <div
         className="AppView"
+        ref={divRef}
         data-visible={shouldDisplay ? '1' : '0'}
         data-status={state.status}
         data-finished={isFinished ? '1' : '0'}
