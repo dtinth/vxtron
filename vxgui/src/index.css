@@ -38,15 +38,19 @@ html[data-electron='1'] body {
   font-weight: bold;
   min-height: 64px;
   box-sizing: border-box;
+  transform-origin: left;
+  transform: scale(0.9);
 }
 .AppView[data-finished='1'] .AppView-transcript {
   color: #d7fc70;
+  transform: scale(1);
+  transition: 0.2s transform;
 }
 .AppView[data-status='idle'] .AppView-icon {
   color: #000;
 }
 .AppView[data-status='listeningRequested'] .AppView-icon {
-  color: #bef;
+  color: #fb5e90;
 }
 .AppView[data-status='listening'] .AppView-icon {
   color: #e9e8e7;
