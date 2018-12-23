@@ -2,12 +2,12 @@ const electron = require('electron')
 const { app, globalShortcut, BrowserWindow, ipcMain } = require('electron')
 
 function createWindow() {
-  const { width } = electron.screen.getPrimaryDisplay().workAreaSize
+  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
   const win = (global.window = new BrowserWindow({
     x: 0,
-    y: 120,
+    y: height - 240,
     width: width,
-    height: 480,
+    height: 240,
     frame: false,
     transparent: true,
     hasShadow: false
