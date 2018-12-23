@@ -190,4 +190,4 @@ When the speech API is being used, vx keeps track of its usage log in
    $0.024/min, 2: enhanced video speech recognition at $0.048/min).
 
 There is also a simple Ruby script that displays a summary of how much is spent
-on this API per day. You can run it using `ruby price.rb`.
+on this API per day. You can run it using `ruby cost.rb`.
