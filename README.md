@@ -145,6 +145,33 @@ from `localhost:3000` instead of the built files.
 VX_DEV=1 yarn start
 ```
 
+## Architecture
+
+There are two main components in this project:
+
+1. The web application, built using React and TypeScript.
+
+   - It contains the core application logic, such as how the transcript from the
+     speech recognition service is handled.
+   - It is designed to run both in Browser environment (for development) and
+     Electron environment (for actual use).
+
+   | Environment            | Browser                     | Electron                    |
+   | ---------------------- | --------------------------- | --------------------------- |
+   | Use case               | For development             | For real-world usage        |
+   | Display                | As a web app                | As an overlay HUD           |
+   | Activation             | Only inside web app         | Available system-wide       |
+   | Speech recognition API | webkitSpeechRecognition API | Google Cloud Speech-To-Text |
+   | Recognition quality    | Not so accurate for me      | Very accurate               |
+   | Automatic punctuation  | Not supported               | Supported                   |
+   | Cost of usage          | Free                        | \$0.048/min                 |
+
+2. The electron application
+
+- Provides the overlay GUI.
+- Provides access to global hotkeys
+- Provides access to Google Cloud Speech APIs.
+
 ## Cost
 
 I have to use the premium "video" voice model which is able to recognize my
@@ -153,3 +180,14 @@ is also much better at recognizing speech with a lot of technical terms,
 compared to the default model.
 
 It costs USD 0.048 per minute to use. The first 60 minutes per month are free.
+
+When the speech API is being used, vx keeps track of its usage log in
+`speech-stats.log`. It is a TSV file with 3 columns:
+
+1. Timestamp
+2. Usage in seconds, rounded up.
+3. The pricing plan (1: normal speech recognition at
+   $0.024/min, 2: enhanced video speech recognition at $0.048/min).
+
+There is also a simple Ruby script that displays a summary of how much is spent
+on this API per day. You can run it using `ruby price.rb`.
