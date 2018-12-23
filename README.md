@@ -22,43 +22,48 @@ voice and converts to text and copies it to the clipboard.
 
 1. Create a Google Cloud platform project and enable billing on it.
 
-2. Enable the Google Cloud speech API and turn on data logging.
+2. Go to
+   [Google Cloud API library](https://console.cloud.google.com/apis/library) and
+   enable the Google Cloud Speech API.
 
-3. [Set up authentication with a service account](https://cloud.google.com/docs/authentication/getting-started).
+3. To get access to enhanced voice models,
+   [turn on data logging](https://console.cloud.google.com/apis/api/speech.googleapis.com/data_logging).
 
-4. Clone this repository.
+4. [Set up authentication with a service account](https://cloud.google.com/docs/authentication/getting-started).
 
-5. Create a `.env` file in the repo:
+5. Clone this repository.
+
+6. Create a `.env` file in the repo:
 
    ```
    GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
    ```
 
-6. Install the dependencies for the Electron app:
+7. Install the dependencies for the Electron app:
 
    ```
    npm install
    ```
 
-7. Some binary dependencies have to be rebuilt for Electron.
+8. Some binary dependencies have to be rebuilt for Electron.
 
    ```
    npm run rebuild-deps
    ```
 
-8. Install the dependencies for the React app, located in `vxgui` foler:
+9. Install the dependencies for the React app, located in `vxgui` foler:
 
    ```
    (cd vxgui && yarn)
    ```
 
-9. Build the React app:
+10. Build the React app:
 
-   ```
-   (cd vxgui && yarn build)
-   ```
+    ```
+    (cd vxgui && yarn build)
+    ```
 
-10. Run the Electron app:
+11. Run the Electron app:
 
     ```
     yarn start
