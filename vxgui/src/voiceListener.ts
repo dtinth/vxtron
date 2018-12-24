@@ -99,6 +99,7 @@ export function createGoogleCloudPlatformVoiceListener(
         message.result.isFinal
       )
     } else if (message.type === 'end') {
+      active = false
       delegate.onListeningStopped()
     } else if (message.type === 'ready') {
       delegate.onListeningStarted(message.expiryTime)
