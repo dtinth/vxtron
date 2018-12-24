@@ -14,7 +14,10 @@ export const actions = actionTypes({
   }>(),
 
   /** When listening session is finished or expired */
-  ListeningFinished: actionType<{}>(),
+  ListeningFinished: actionType<{
+    /** The timestamp that this has occurred */
+    timestamp: number
+  }>(),
 
   /** When transcript is received */
   TranscriptReceived: actionType<{
@@ -84,6 +87,14 @@ export const reducer = actionHandler<State>()
   .handle(actions.ListeningFinished, (state, action) => {
     state.status = 'idle'
     delete state.listeningExpiryTime
+    if (state.currentTranscript) {
+      state.history.push({
+        timestamp: action.timestamp,
+        transcript: state.currentTranscript
+      })
+      state.historyIndex = state.history.length - 1
+      state.currentTranscript = ''
+    }
   })
   .handle(actions.RecallPrevious, (state, action) => {
     state.historyIndex = Math.max(0, state.historyIndex - 1)

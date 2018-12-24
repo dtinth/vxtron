@@ -47,7 +47,8 @@ function App() {
       onError: message => console.error('Listening failed:', message),
       onListeningStarted: expiryTime =>
         dispatch(actions.ListeningStarted({ expiryTime })),
-      onListeningStopped: () => dispatch(actions.ListeningFinished({})),
+      onListeningStopped: () =>
+        dispatch(actions.ListeningFinished({ timestamp: Date.now() })),
       onTranscript: (transcript, isFinal) => {
         dispatch(
           actions.TranscriptReceived({
