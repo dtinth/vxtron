@@ -18,7 +18,50 @@ voice and converts to text and copies it to the clipboard.
   automatic punctuation insertion, which means it can automatically add full
   stops, commas, and question marks.
 
-## Setup
+## Supported speech recognizers
+
+- **Google Chrome’s webkitSpeechRecognition** (free)
+
+  - Can be used free of charge
+  - No time limit
+  - Requires opening a browser tab in background
+  - Recognition quality is not so great
+  - No automatic punctuation insertion
+
+- **Google Speech-To-Text API** (paid)
+
+  - Much better recognition accuracy for English language
+  - Automatically adds punctuation marks
+  - Does not require opening a browser tab in background
+  - Costs money
+  - Each session is limited to 60 seconds
+
+## Installation
+
+1. Clone this repository.
+
+2. Install the dependencies for the Electron app:
+
+   ```
+   npm install
+   ```
+
+   **Note:** Due to the binary dependencies, you have to use `npm` to install,
+   not `yarn`.
+
+3. Install the dependencies for the React app, located in `vxgui` foler:
+
+   ```
+   (cd vxgui && yarn)
+   ```
+
+4. Build the React app:
+
+   ```
+   (cd vxgui && yarn build)
+   ```
+
+## Configuration with Google Cloud Speech-To-Text
 
 1. Create a Google Cloud platform project and enable billing on it.
 
@@ -30,46 +73,46 @@ voice and converts to text and copies it to the clipboard.
    [turn on data logging](https://console.cloud.google.com/apis/api/speech.googleapis.com/data_logging).
 
 4. [Set up authentication with a service account](https://cloud.google.com/docs/authentication/getting-started).
+   Download a service account file and save it to your computer.
 
-5. Clone this repository.
+5. Create `~/.vxrc.yml` with the following configuration:
 
-6. Create a `.env` file in the repo:
-
-   ```
-   GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
-   ```
-
-7. Install the dependencies for the Electron app:
-
-   ```
-   npm install
+   ```yml
+   speechProvider: google-cloud
+   speechProviderOptions:
+     serviceAccount: /path/to/service-account.json
    ```
 
-8. Some binary dependencies have to be rebuilt for Electron.
+## Configuration with Google Chrome
 
+Google Chrome provides the webkitSpeechRecognition API which is available for
+free. However it can only be used inside Google Chrome (which means it is
+[not available in other Chromium-based environment, including Electron](https://stackoverflow.com/questions/36214413/webkitspeechrecognition-returning-network-error-in-electron)).
+`vx` uses a hacky workaround by using a web page to be run by Google Chrome
+which exposes the webkitSpeechRecognition API to the Electron app via socket.io.
+
+1. Create `~/.vxrc.yml` with the following configuration:
+
+   ```yml
+   speechProvider: chrome
    ```
-   npm run rebuild-deps
+
+   you can configure the port and whether to open the browser automatically:
+
+   ```yml
+   speechProvider: chrome
+   speechProviderOptions:
+     port: 5555
+     openBrowser: false
    ```
-
-9. Install the dependencies for the React app, located in `vxgui` foler:
-
-   ```
-   (cd vxgui && yarn)
-   ```
-
-10. Build the React app:
-
-    ```
-    (cd vxgui && yarn build)
-    ```
-
-11. Run the Electron app:
-
-    ```
-    yarn start
-    ```
 
 ## Usage
+
+- Run the Electron app:
+
+  ```
+  npm start
+  ```
 
 - Press **Cmd+Shift+L** to dictate English text. Press it again to make it stop
   listening.

@@ -1,9 +1,15 @@
 const electron = require('electron')
+const configuration = require('./configuration')
 const { app, globalShortcut, BrowserWindow, ipcMain } = require('electron')
+const getSpeechProvider = require('./speech')
+const speechProvider = getSpeechProvider(
+  configuration.speechProvider,
+  configuration.speechProviderOptions || {}
+)
 
 function createWindow() {
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
-  const win = (global.window = new BrowserWindow({
+  const win = new BrowserWindow({
     x: 0,
     y: height - 240,
     width: width,
@@ -11,7 +17,8 @@ function createWindow() {
     frame: false,
     transparent: true,
     hasShadow: false
-  }))
+  })
+  Object.assign(global, { window: win })
   if (process.env.VX_DEV === '1') {
     win.loadURL('http://localhost:3000/?electron=1')
   } else {
@@ -22,7 +29,7 @@ function createWindow() {
   let currentListenProcess
   ipcMain.on('listen', (event, options) => {
     console.log('[main] Start listen')
-    currentListenProcess = require('./speech')(options, message => {
+    currentListenProcess = speechProvider.startListening(options, message => {
       console.log('[main] Got message', message)
       event.sender.send('listen-event', message)
     })

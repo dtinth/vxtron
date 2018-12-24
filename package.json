@@ -1,14 +1,20 @@
 {
   "dependencies": {
     "@google-cloud/speech": "^2.1.1",
-    "dotenv": "^6.2.0",
+    "cosmiconfig": "^5.0.7",
     "electron": "3.0.13",
+    "express": "^4.16.4",
     "grpc": "^1.17.0",
-    "node-record-lpcm16": "^0.3.1"
+    "node-record-lpcm16": "^0.3.1",
+    "opn": "^5.4.0",
+    "pino": "^5.10.5",
+    "pino-pretty": "^2.5.0",
+    "socket.io": "^2.2.0"
   },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "rebuild-deps": "npm rebuild --runtime=electron --target=3.0.13"
+    "rebuild-deps": "npm rebuild --runtime=electron --target=3.0.13",
+    "postinstall": "npm run rebuild-deps"
   }
 }

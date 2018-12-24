@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>vxchromeserver</title>
+    <style>
+      body {
+        background: #353433;
+        color: #e9e8e7;
+        font: 18px Arimo, sans-serif;
+        padding: 8px 24px;
+      }
+      #log {
+        font: 16px Cousine, Menlo, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>vxchromeserver</h1>
+    <p>
+      Leave this tab open to use vx through Chrome’s webkitSpeechRecognition
+      API.
+    </p>
+    <pre id="log"></pre>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io()
+      var logContainer = document.querySelector('#log')
+
+      function log(text) {
+        const item = document.createElement('div')
+        item.textContent = '[' + new Date().toJSON() + '] ' + text
+        logContainer.appendChild(item)
+        if (logContainer.childNodes.length > 10) {
+          logContainer.removeChild(logContainer.firstChild)
+        }
+      }
+
+      var recognition = new webkitSpeechRecognition()
+      var listening = false
+      recognition.continuous = true
+      recognition.interimResults = true
+      recognition.onstart = function() {
+        socket.emit('recognition event', { type: 'ready' })
+        log('Ready to listen')
+      }
+      recognition.onerror = function() {
+        if (event.error === 'no-speech') {
+          listening = false
+          log('Closed: No speech')
+          socket.emit('recognition event', { type: 'end' })
+        }
+        const sendError = message => {
+          log('Error: ' + message)
+          socket.emit('recognition event', { type: 'error', message })
+        }
+        if (event.error === 'audio-capture') {
+          sendError('No microphone was found.')
+        }
+        if (event.error === 'not-allowed') {
+          sendError('Permission to use microphone is blocked.')
+        }
+      }
+      recognition.onend = function() {
+        socket.emit('recognition event', { type: 'end' })
+        listening = false
+      }
+      recognition.onresult = function(event) {
+        var finalTranscript = ''
+        var interimTranscript = ''
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript
+          } else {
+            interimTranscript += event.results[i][0].transcript
+          }
+        }
+        if (interimTranscript) {
+          socket.emit('recognition event', {
+            type: 'result',
+            result: {
+              alternatives: [{ transcript: interimTranscript }],
+              isFinal: false
+            }
+          })
+        }
+        if (finalTranscript) {
+          socket.emit('recognition event', {
+            type: 'result',
+            result: {
+              alternatives: [{ transcript: finalTranscript }],
+              isFinal: true
+            }
+          })
+        }
+      }
+      socket.on('connect', () => {
+        log('Connected to server')
+      })
+      socket.on('connect_error', connectionError => {
+        log('Connection error (check JS console)')
+        console.error(connectionError)
+      })
+      socket.on('connect_timeout', () => {
+        log('Connection timeout')
+      })
+      socket.on('request recognition', () => {
+        log('Received recognition request')
+        socket.emit('i am here')
+      })
+      socket.on('start recognition', options => {
+        log('Recognition start')
+        recognition.lang = options.language
+        recognition.start()
+        listening = true
+      })
+      socket.on('stop recognition', options => {
+        log('Recognition stop')
+        recognition.stop()
+      })
+    </script>
+  </body>
+</html>
