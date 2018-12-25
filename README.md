@@ -78,8 +78,8 @@ expose the webkitSpeechRecognition API to the Electron app via socket.io.
 1. This is the default behavior; you don't need to configure anything to use
    this mode.
 
-2. You can configure more options by creating `~/.vxrc.yml` with the following
-   configuration:
+2. You can configure more options by creating `~/.vxrc.yml` in the home
+   directory with the following configuration:
 
    ```yml
    speechProvider: chrome
