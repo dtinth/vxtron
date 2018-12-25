@@ -20,7 +20,10 @@ the clipboard. Built using Electron.
 
 ## Supported speech recognizers
 
-- **Google Chrome’s webkitSpeechRecognition** (free)
+`vx` support pluggable speech recognizers. You can choose to use one of the
+following:
+
+- **Google Chrome’s webkitSpeechRecognition** (free, default)
 
   - Can be used free of charge
   - No time limit
