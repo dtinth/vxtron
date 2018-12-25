@@ -1,7 +1,7 @@
 # vxtron
 
-Electron version of [vxcli](https://github.com/dtinth/vxcli). It listens to my
-voice and converts to text and copies it to the clipboard.
+A little application listens to my voice and converts to text and copies it to
+the clipboard. Built using Electron.
 
 ## Why
 
@@ -36,18 +36,15 @@ voice and converts to text and copies it to the clipboard.
   - Costs money
   - Each session is limited to 60 seconds
 
-## Installation
+## Development setup
 
 1. Clone this repository.
 
 2. Install the dependencies for the Electron app:
 
    ```
-   npm install
+   yarn
    ```
-
-   **Note:** Due to the binary dependencies, you have to use `npm` to install,
-   not `yarn`.
 
 3. Install the dependencies for the React app, located in `vxgui` foler:
 
@@ -59,6 +56,12 @@ voice and converts to text and copies it to the clipboard.
 
    ```
    (cd vxgui && yarn build)
+   ```
+
+5. Build an `.app` bundle:
+
+   ```
+   yarn build
    ```
 
 ## Configuration with Google Cloud Speech-To-Text
@@ -103,16 +106,12 @@ which exposes the webkitSpeechRecognition API to the Electron app via socket.io.
    speechProvider: chrome
    speechProviderOptions:
      port: 5555
-     openBrowser: false
+     openBrowser: false # default: true
    ```
 
 ## Usage
 
-- Run the Electron app:
-
-  ```
-  npm start
-  ```
+- Launch the Electron app at `dist/mac/vxtron.app`.
 
 - Press **Cmd+Shift+L** to dictate English text. Press it again to make it stop
   listening.

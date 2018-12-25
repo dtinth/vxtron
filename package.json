@@ -1,8 +1,9 @@
 {
+  "name": "vxtron",
+  "description": "Recognize text from speech and copy it to clipboard",
   "dependencies": {
     "@google-cloud/speech": "^2.1.1",
     "cosmiconfig": "^5.0.7",
-    "electron": "3.0.13",
     "express": "^4.16.4",
     "grpc": "^1.17.0",
     "node-record-lpcm16": "^0.3.1",
@@ -14,7 +15,35 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "rebuild-deps": "npm rebuild --runtime=electron --target=3.0.13",
-    "postinstall": "npm run rebuild-deps"
-  }
+    "postinstall": "electron-builder install-app-deps",
+    "build": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "3.0.13",
+    "electron-builder": "^20.38.4"
+  },
+  "build": {
+    "appId": "me.spacet.vx",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "files": [
+      "vxgui/build/**/*",
+      "speech/**/*",
+      "configuration.js",
+      "main.js"
+    ]
+  },
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dtinth/vxtron.git"
+  },
+  "author": "Thai Pangsakulyanont <dtinth@spacet.me> (http://dt.in.th/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dtinth/vxtron/issues"
+  },
+  "homepage": "https://github.com/dtinth/vxtron#readme"
 }
