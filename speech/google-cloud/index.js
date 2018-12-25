@@ -1,5 +1,5 @@
 const fs = require('fs')
-const logFile = __dirname + '/speech-stats.log'
+const logFile = process.env.HOME + '/.vx-google-cloud-speech.log'
 const record = require('node-record-lpcm16')
 const speech = require('@google-cloud/speech').v1p1beta1
 require('protobufjs/src/util/minimal').isNode = true

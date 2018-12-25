@@ -225,7 +225,7 @@ compared to the default model.
 It costs USD 0.048 per minute to use. The first 60 minutes per month are free.
 
 When the speech API is being used, vx keeps track of its usage log in
-`speech-stats.log`. It is a TSV file with 3 columns:
+`~/.vx-google-cloud-speech.log`. It is a TSV file with 3 columns:
 
 1. Timestamp
 2. Usage in seconds, rounded up.
