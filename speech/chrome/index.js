@@ -48,7 +48,7 @@ module.exports = function startServer(providerOptions) {
     startListening(opts, dispatch) {
       console.log('[vxchromeserver] startListening')
       if (clients === 0 && providerOptions.openBrowser !== false && serverUrl) {
-        const app = providerOptions.browserApp || 'google chrome'
+        const app = providerOptions.browserApp || 'Google Chrome'
         opn(serverUrl, { app: app, wait: false })
       }
       let currentSocket = null
