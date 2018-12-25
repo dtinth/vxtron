@@ -72,20 +72,18 @@ free. However it can only be used inside Google Chrome (which means it is
 `vx` uses a hacky workaround by launching Google Chrome to a webpage which helps
 expose the webkitSpeechRecognition API to the Electron app via socket.io.
 
-1. Create `~/.vxrc.yml` with the following configuration:
+1. This is the default behavior; you don't need to configure anything to use
+   this mode.
 
-   ```yml
-   speechProvider: chrome
-   ```
-
-   you can configure the port and whether to open the browser automatically:
+2. You can configure more options by creating `~/.vxrc.yml` with the following
+   configuration:
 
    ```yml
    speechProvider: chrome
    speechProviderOptions:
      port: 5555
      openBrowser: false # default: true
-     app: google chrome # see: https://www.npmjs.com/package/opn#app
+     app: Google Chrome # see: https://www.npmjs.com/package/opn#app
    ```
 
 ## Configuration with Google Cloud Speech-To-Text
