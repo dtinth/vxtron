@@ -107,6 +107,7 @@ which exposes the webkitSpeechRecognition API to the Electron app via socket.io.
    speechProviderOptions:
      port: 5555
      openBrowser: false # default: true
+     app: google chrome # see: https://www.npmjs.com/package/opn#app
    ```
 
 ## Usage
