@@ -3,7 +3,7 @@ const configuration = require('./configuration')
 const { app, globalShortcut, BrowserWindow, ipcMain } = require('electron')
 const getSpeechProvider = require('./speech')
 const speechProvider = getSpeechProvider(
-  configuration.speechProvider,
+  configuration.speechProvider || 'chrome',
   configuration.speechProviderOptions || {}
 )
 
