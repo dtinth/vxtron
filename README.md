@@ -64,6 +64,30 @@ the clipboard. Built using Electron.
    yarn build
    ```
 
+## Configuration with Google Chrome
+
+Google Chrome provides the webkitSpeechRecognition API which is available for
+free. However it can only be used inside Google Chrome (which means it is
+[not available in other Chromium-based environment, including Electron](https://stackoverflow.com/questions/36214413/webkitspeechrecognition-returning-network-error-in-electron)).
+`vx` uses a hacky workaround by launching Google Chrome to a webpage which helps
+expose the webkitSpeechRecognition API to the Electron app via socket.io.
+
+1. Create `~/.vxrc.yml` with the following configuration:
+
+   ```yml
+   speechProvider: chrome
+   ```
+
+   you can configure the port and whether to open the browser automatically:
+
+   ```yml
+   speechProvider: chrome
+   speechProviderOptions:
+     port: 5555
+     openBrowser: false # default: true
+     app: google chrome # see: https://www.npmjs.com/package/opn#app
+   ```
+
 ## Configuration with Google Cloud Speech-To-Text
 
 1. Create a Google Cloud platform project and enable billing on it.
@@ -84,30 +108,6 @@ the clipboard. Built using Electron.
    speechProvider: google-cloud
    speechProviderOptions:
      serviceAccount: /path/to/service-account.json
-   ```
-
-## Configuration with Google Chrome
-
-Google Chrome provides the webkitSpeechRecognition API which is available for
-free. However it can only be used inside Google Chrome (which means it is
-[not available in other Chromium-based environment, including Electron](https://stackoverflow.com/questions/36214413/webkitspeechrecognition-returning-network-error-in-electron)).
-`vx` uses a hacky workaround by using a web page to be run by Google Chrome
-which exposes the webkitSpeechRecognition API to the Electron app via socket.io.
-
-1. Create `~/.vxrc.yml` with the following configuration:
-
-   ```yml
-   speechProvider: chrome
-   ```
-
-   you can configure the port and whether to open the browser automatically:
-
-   ```yml
-   speechProvider: chrome
-   speechProviderOptions:
-     port: 5555
-     openBrowser: false # default: true
-     app: google chrome # see: https://www.npmjs.com/package/opn#app
    ```
 
 ## Usage
