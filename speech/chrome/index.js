@@ -14,6 +14,7 @@ module.exports = function startServer(providerOptions) {
 
   let clients = 0
   let currentRecognition
+  let serverUrl
   io.on('connection', function(socket) {
     clients++
     const name = `Speech recognizer id=${socket.id}`
@@ -36,7 +37,7 @@ module.exports = function startServer(providerOptions) {
     const serverAddress = server.address()
     // @ts-ignore
     const url = 'http://localhost:' + serverAddress.port
-    if (providerOptions.openBrowser !== false) opn(url)
+    serverUrl = url
     console.log(url)
   })
 
@@ -46,6 +47,8 @@ module.exports = function startServer(providerOptions) {
     },
     startListening(opts, dispatch) {
       console.log('[vxchromeserver] startListening')
+      if (clients === 0 && providerOptions.openBrowser !== false && serverUrl)
+        opn(serverUrl)
       let currentSocket = null
       let stopped = false
       const cleanup = () => {
