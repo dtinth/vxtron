@@ -6,7 +6,16 @@ import { isElectronMode } from './environment'
 import './index.css'
 import { createVoiceListener, VoiceListener } from './voiceListener'
 import { reducer, initialState, actions } from './state'
+import retext from 'retext'
+import retextSmartypants from 'retext-smartypants'
 
+function smartypants(text: string) {
+  return String(
+    retext()
+      .use(retextSmartypants)
+      .processSync(text)
+  )
+}
 const MicIcon = () => (
   <svg width="33px" height="47px" viewBox="0 0 33 47" version="1.1">
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -86,10 +95,11 @@ function App() {
   )
 
   const currentHistoryItem = state.history[state.historyIndex]
-  const text =
+  const text = smartypants(
     state.currentTranscript ||
-    (currentHistoryItem && currentHistoryItem.transcript) ||
-    ''
+      (currentHistoryItem && currentHistoryItem.transcript) ||
+      ''
+  )
   const isFinished = !state.currentTranscript
   const shouldDisplay = !isFinished || text !== '' || state.status !== 'idle'
   const toHide =
