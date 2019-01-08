@@ -107,9 +107,10 @@ export const reducer = actionHandler<State>()
   })
   .handle(actions.TranscriptReceived, (state, action) => {
     if (action.isFinal) {
+      const text = String(action.transcript).trim()
       state.history.push({
         timestamp: action.timestamp,
-        transcript: action.transcript
+        transcript: postprocess(text, state.history)
       })
       state.historyIndex = state.history.length - 1
       state.currentTranscript = ''
@@ -118,3 +119,18 @@ export const reducer = actionHandler<State>()
     }
   })
   .toReducer()
+
+function postprocess(text: string, history: State['history']) {
+  text = text.replace(/(\S)เว้นวรรค(\S)/g, '$1 $2')
+  if (text.match(/ capitalized$/)) {
+    return text.replace(/ capitalized$/, '').replace(/^./, a => a.toUpperCase())
+  }
+  if (text === 'capitalize') {
+    if (history.length > 0) {
+      return history[history.length - 1].transcript.replace(/^./, a =>
+        a.toUpperCase()
+      )
+    }
+  }
+  return text
+}
