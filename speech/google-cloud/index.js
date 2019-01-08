@@ -12,6 +12,7 @@ module.exports = function googleCloudSpeech(speechProviderOptions) {
   }
   process.env.GOOGLE_APPLICATION_CREDENTIALS =
     speechProviderOptions.serviceAccount
+  const recordProgram = speechProviderOptions.recordProgram || 'rec'
   return {
     startListening(opts, dispatch) {
       const client = new speech.SpeechClient()
@@ -55,7 +56,7 @@ module.exports = function googleCloudSpeech(speechProviderOptions) {
           sampleRateHertz: 16000,
           threshold: 0,
           verbose: false,
-          recordProgram: 'rec',
+          recordProgram: recordProgram,
           silence: '10.0'
         })
         .on('data', buf => {
