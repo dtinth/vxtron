@@ -109,7 +109,12 @@ expose the webkitSpeechRecognition API to the Electron app via socket.io.
    speechProvider: google-cloud
    speechProviderOptions:
      serviceAccount: /path/to/service-account.json
+     recordProgram: /usr/bin/rec
    ```
+
+   - `serviceAccount` is the full path to your service account file
+   - `recordProgram` is the full path to [SoX’s](http://sox.sourceforge.net/)
+     `rec` executable.
 
 ## Usage
 
